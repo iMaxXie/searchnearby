@@ -26,8 +26,8 @@ public class LastActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
         setContentView(R.layout.next);
+
         listView1=(ListView)findViewById(R.id.Two_listView);
         listView1.setDivider(new ColorDrawable(Color.BLACK));
         listView1.setDividerHeight(1);
@@ -84,6 +84,8 @@ public class LastActivity extends Activity{
                 return view;    //To change body of overridden methods use File | Settings | File Templates.
             }
         };
+
+        listView1.setAdapter(simpleAdapter);
     }
 
     private void initobjectdata() {

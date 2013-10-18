@@ -68,7 +68,7 @@ public class NextActivity extends Activity{
                         startActivity(intent);
                     }
                 });
-                return view;    //To change body of overridden methods use File | Settings | File Templates.
+                return view;
             }
         };
         listView1.setAdapter(simpleAdapter);

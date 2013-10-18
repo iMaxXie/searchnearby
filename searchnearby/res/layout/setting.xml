@@ -9,7 +9,7 @@
                   android:layout_height="wrap_content"
                   android:background="@drawable/bg_title_bar">
 
-          <ImageButton  android:id="@+id/Return_Button"
+          <ImageButton  android:id="@+id/return_button"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_gravity="center_vertical"

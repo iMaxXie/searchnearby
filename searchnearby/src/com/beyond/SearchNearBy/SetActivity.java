@@ -2,6 +2,9 @@ package com.beyond.SearchNearBy;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +18,15 @@ public class SetActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
+        inittop();
     }
-
+    private void inittop() {
+        ImageButton bt = (ImageButton) findViewById(R.id.return_button);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
 }
