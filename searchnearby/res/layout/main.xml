@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_title_bar">
+
+        <ImageButton android:id="@+id/search_button"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_vertical"
+                   android:onClick="OnClickListener"
+                   android:layout_marginLeft="10dp"
+                   android:background="@drawable/abs__ic_search"/>
+
+        <TextView android:id="@+id/top_textview"
+                   android:layout_height="wrap_content"
+                   android:layout_width="235dp"
+                   android:layout_gravity="center_vertical"
+                   android:text="搜周边"
+                   android:textSize="18dp"
+                   android:textColor="#ffffff"
+                   android:gravity="center"/>
+
+        <ImageButton  android:id="@+id/setting_button"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_vertical"
+                   android:layout_marginRight="10dp"
+                   android:background="@drawable/ic_action_setting"/>
+    </LinearLayout>
+    <ListView android:id="@+id/Main_listView"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:layout_weight="1"
+              android:layout_gravity="center"
+              android:dividerHeight="1dp">
+    </ListView>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_title_bar"
+			android:clickable="true">
+
+        <TextView android:id="@+id/place_view"
+                    android:layout_height="wrap_content"
+                   android:layout_width="260dp"
+                   android:text="定位中,请稍等..."
+                   android:textSize="14dp"
+                   android:textColor="#ffffff"
+                   android:layout_gravity="center_vertical"
+                   android:layout_marginLeft="15dp"/>
+
+        <ImageButton  android:id="@+id/location_button"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center_vertical"
+                   android:layout_marginLeft="5dp"
+                   android:background="@drawable/ic_localbar_location"/>
+    </LinearLayout>
+</LinearLayout>
+

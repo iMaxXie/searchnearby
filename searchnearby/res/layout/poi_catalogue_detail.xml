@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent">
+
+	<RelativeLayout android:layout_width="fill_parent"
+					android:layout_height="44dp"
+					android:background="@drawable/bg_title_bar">
+
+		<ImageButton android:id="@+id/catalogue_detail_back"
+					 android:layout_width="wrap_content"
+					 android:layout_height="wrap_content"
+					 android:layout_alignParentLeft="true"
+					 android:layout_marginLeft="10dp"
+					 android:src="@drawable/ic_nav_back"
+					 android:background="@drawable/bg_button"
+					 android:onClick="onBackClick"/>
+
+		<ImageButton android:id="@+id/catalogue_list_mode"
+					 android:layout_width="wrap_content"
+					 android:layout_height="wrap_content"
+					 android:layout_alignParentRight="true"
+					 android:layout_marginRight="10dp"
+					 android:src="@drawable/ic_action_route"
+					 android:background="@drawable/bg_button"
+					 android:onClick="onRouteStart"/>
+
+		<TextView android:id="@+id/catalogue_list_title"
+				  android:layout_width="fill_parent"
+				  android:layout_height="wrap_content"
+				  android:gravity="center"
+				  android:layout_marginTop="10dp"
+				  android:textColor="#ffffff"
+				  android:textSize="16dp"
+				  android:text="详细信息"/>
+	</RelativeLayout>
+
+	<RadioGroup	android:orientation="horizontal"
+				   android:layout_width="fill_parent"
+				   android:layout_height="wrap_content">
+
+		<RadioButton android:id="@+id/rout_by_foot"
+					 android:layout_weight="1"
+					 android:layout_width="fill_parent"
+					 android:layout_height="wrap_content"
+					 android:button="@drawable/ic_byfoot"
+					 android:text="步行"
+					 android:textColor="#474747"
+					 android:background="@drawable/bg_radio_btn"/>
+
+		<RadioButton android:id="@+id/rout_by_foot"
+					 android:layout_weight="1"
+					 android:layout_width="fill_parent"
+					 android:layout_height="wrap_content"
+					 android:button="@null"
+					 android:text="公交"
+					 android:textColor="#474747"
+					 android:background="@drawable/bg_radio_btn"/>
+
+		<RadioButton android:id="@+id/rout_by_foot"
+					 android:layout_weight="1"
+					 android:layout_width="fill_parent"
+					 android:layout_height="wrap_content"
+					 android:button="@drawable/ic_bycar"
+					 android:text="驾车"
+					 android:textColor="#474747"
+					 android:background="@drawable/bg_radio_btn"/>
+	</RadioGroup>
+
+	<RelativeLayout android:layout_weight="1"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent">
+
+		<com.baidu.mapapi.map.MapView android:id="@+id/detail_map"
+									  android:layout_width="fill_parent"
+									  android:layout_height="fill_parent">
+		</com.baidu.mapapi.map.MapView>
+
+		<TextView android:id="@+id/detail_route"
+				  android:layout_width="fill_parent"
+				  android:layout_height="wrap_content"
+				  android:padding="5dp"
+				  android:textColor="#ffffff"
+				  android:background="#70000000"
+				  android:text="全程1.2公里，耗时20分钟"/>
+
+		<TextView android:id="@+id/detail_addr"
+				  android:layout_width="fill_parent"
+				  android:layout_height="wrap_content"
+				  android:paddingTop="0dp"
+				  android:paddingRight="5dp"
+				  android:paddingBottom="5dp"
+				  android:paddingLeft="5dp"
+				  android:textColor="#ffffff"
+				  android:layout_alignParentBottom="true"
+				  android:background="#70000000"
+				  android:text="西安南大街52号南附楼内3层"/>
+
+		<TextView android:id="@+id/detail_name"
+				  android:layout_width="fill_parent"
+				  android:layout_height="wrap_content"
+				  android:paddingTop="5dp"
+				  android:paddingRight="5dp"
+				  android:paddingBottom="0dp"
+				  android:paddingLeft="5dp"
+				  android:textColor="#ffffff"
+				  android:layout_above="@id/detail_addr"
+				  android:background="#70000000"
+				  android:text="黄记煌三汁焖锅"/>
+
+	</RelativeLayout>
+
+
+	<LinearLayout android:layout_width="fill_parent"
+				  android:layout_height="wrap_content"
+				  android:padding="5dp"
+				  android:background="#ffffff">
+		<ImageView android:layout_width="wrap_content"
+				   android:layout_height="wrap_content"
+				   android:layout_marginRight="5dp"
+				   android:src="@drawable/ic_phone"/>
+
+		<TextView android:id="@+id/detail_phone"
+				  android:layout_width="fill_parent"
+				  android:layout_height="wrap_content"
+				  android:textColor="#000000"
+				  android:text="12345678"/>
+	</LinearLayout>
+
+</LinearLayout>
