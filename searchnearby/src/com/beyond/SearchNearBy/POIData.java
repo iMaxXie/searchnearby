@@ -35,11 +35,13 @@ public class POIData {
 	public static String getPOIbyLocation(GeoPoint point,String keyword, int range, int page, int count){
 
 		String url = "https://api.weibo.com/2/location/pois/search/by_geo.json?";
+        String access_token = "2.00QtFwpDkXWZ4D46080bf290oAqL4D";
+        String appkey = "3096720804";
 		String result = null;
 
 		url = url+"coordinate="+((float)(point.getLongitudeE6()/1E6))+"%2C"+
 				((float)(point.getLatitudeE6()/1E6));
-		url = url+"&q="+keyword+"&access_token=2.00QtFwpDkXWZ4D46080bf290oAqL4D";
+		url = url+"&q="+keyword+"&access_token="+access_token;
 		url = url+"&sr=1"+"&range="+range+"&page="+page+"&count="+count;
 
 		try {
@@ -49,7 +51,7 @@ public class POIData {
 
 			result = EntityUtils.toString(response.getEntity(),"UTF-8");
 		} catch (IOException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			e.printStackTrace();
 		}
 
 		return result;

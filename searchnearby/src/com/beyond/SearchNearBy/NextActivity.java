@@ -60,13 +60,14 @@ public class NextActivity extends Activity{
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
                 ImageButton button = (ImageButton) view.findViewById(R.id.next_button);
+                final TextView textView = (TextView) view.findViewById(R.id.text_name);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Log.d(TAG, view.toString());
                         Intent intent = new Intent();
                         intent.setClass(NextActivity.this,LastActivity.class);
-                        //intent.putExtra("top",textView.getText());
+                        intent.putExtra("keyword",textView.getText());
                         startActivity(intent);
                     }
                 });

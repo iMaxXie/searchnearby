@@ -41,7 +41,7 @@ public class LastActivity extends Activity{
 
     private void inittop() {
         TextView textView = (TextView) findViewById(R.id.title_text);
-        textView.setText(getIntent().getCharSequenceExtra("top"));
+        textView.setText(getIntent().getStringExtra("keyword"));
         ImageButton bt = (ImageButton) findViewById(R.id.return_btn);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override

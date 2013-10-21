@@ -36,7 +36,7 @@
 					 android:layout_marginTop="5dp"
 					 android:src="@drawable/ic_refresh"
 					 android:background="@drawable/bg_button"
-					 android:onClick="onListBackClick"/>
+					 android:onClick="onRefreshClick"/>
 
 		<TextView android:id="@+id/catalogue_list_title"
 				  android:layout_width="fill_parent"
