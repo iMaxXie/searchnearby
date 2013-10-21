@@ -66,4 +66,9 @@ public class MapManagerApplication extends Application {
 			}
 		}
 	}
+
+	@Override
+	public void onTerminate() {
+		super.onTerminate();
+	}
 }

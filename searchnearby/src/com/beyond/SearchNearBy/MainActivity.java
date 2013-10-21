@@ -1,8 +1,9 @@
 package com.beyond.SearchNearBy;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.*;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +13,65 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends Activity{
-	private static final String TAG="MainActivity";
+	private static final String TAG="snb.MainActivity";
+
+	private CurrentLocation currentLoc;
+	private ServiceConnection serviceCon = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			Log.d(TAG,"onServiceConnected: ComponentName"+name.getClassName());
+			CurrentLocation.ServiceBindler bindler = (CurrentLocation.ServiceBindler) service;
+			currentLoc = bindler.getService();
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+		}
+	};
+
     private ListView listView;
     private ArrayList<HashMap<String, ?>> data = new ArrayList<HashMap<String, ?>>();
     private ArrayList<String>objectdata = new ArrayList<String>();
 
+	private ImageButton search_btn;
+	private ImageButton set_btn;
+	private ImageButton loc_btn;
+	private TextView place_text;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+		Log.d(TAG,"MainActivity onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+		Intent intent = new Intent(this,CurrentLocation.class);
+		//startService(intent);
+		bindService(intent,serviceCon,BIND_AUTO_CREATE);
+
         init();
     }
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.d(TAG,"MainActivity onResume");
+		Intent intent = new Intent(this,CurrentLocation.class);
+		bindService(intent,serviceCon,BIND_AUTO_CREATE);
+	}
+
     private void init() {
-		inittop();
+		initComponent();
         initlistView();
     }
 
-	private void inittop(){
-		ImageButton search_btn = (ImageButton)findViewById(R.id.search_button);
-		ImageButton set_btn = (ImageButton)findViewById(R.id.setting_button);
-		ImageButton loc_btn = (ImageButton)findViewById(R.id.location_button);
+	private void initComponent(){
+
+		place_text = (TextView) findViewById(R.id.place_text);
+		search_btn = (ImageButton)findViewById(R.id.search_button);
+		set_btn = (ImageButton)findViewById(R.id.setting_button);
+		loc_btn = (ImageButton)findViewById(R.id.location_button);
+
 		search_btn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -49,6 +89,7 @@ public class MainActivity extends Activity{
 		loc_btn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				place_text.setText(currentLoc.getBDLocation().getAddrStr());
 			}
 		});
 	}
@@ -61,18 +102,20 @@ public class MainActivity extends Activity{
             data.add(hashMap);
 		}
 
-        listView = (ListView) findViewById(R.id.Main_listView);
-        SimpleAdapter myAdapate = new SimpleAdapter(this,data,R.layout.main_item,new String[]{"nameTextView"},new int[]{R.id.nameTextView}){
+        listView = (ListView) findViewById(R.id.main_list);
+		listView.setDividerHeight(1);
+        SimpleAdapter myAdapate = new SimpleAdapter(this,data,R.layout.main_item,new String[]{"nameTextView"},new int[]{R.id.text_name}){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
                 ImageButton button = (ImageButton) view.findViewById(R.id.next_button);
+				final TextView textView = (TextView) view.findViewById(R.id.text_name);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("MainActivity"," onClick");
-                        Intent intent = new Intent();
-                        intent.setClass(MainActivity.this,NextActivity.class);
+                        Log.d(TAG," onClick");
+                        Intent intent = new Intent(MainActivity.this,NextActivity.class);
+						intent.putExtra("keyword",textView.getText());
                         startActivity(intent);
                     }
                 });
@@ -81,6 +124,7 @@ public class MainActivity extends Activity{
 					public void onClick(View v) {
 						Log.d(TAG,"Item : onClick");
 						Intent intent = new Intent(MainActivity.this,PoiCatalogueShowActivity.class);
+						intent.putExtra("keyword",textView.getText());
 						startActivity(intent);
 					}
 				});
@@ -90,17 +134,24 @@ public class MainActivity extends Activity{
 
         listView.setAdapter(myAdapate);
 
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Log.d(TAG,"onItemClick");
-				Intent intent = new Intent(MainActivity.this,PoiCatalogueShowActivity.class);
-				startActivity(intent);
-			}
-		});
     }
 
-    private void initobjectdata() {
+	@Override
+	protected void onPause() {
+		Log.d(TAG, "MainActivity onPause");
+		unbindService(serviceCon);
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		Log.d(TAG,"MainActivity onDestroy");
+		Intent intent = new Intent(this,CurrentLocation.class);
+		stopService(intent);
+		super.onDestroy();
+	}
+
+	private void initobjectdata() {
         objectdata.add("餐饮服务");
         objectdata.add("购物服务");
         objectdata.add("生活服务");
@@ -117,4 +168,6 @@ public class MainActivity extends Activity{
         objectdata.add("公共服务");
 
     }
+
+
 }

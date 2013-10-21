@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class NextActivity extends Activity{
-    private ListView listView1;
+	private final String TAG="NextActivity";
+    private ListView listView;
     private List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
     private ArrayList<String>objectdata = new ArrayList<String>();
 
@@ -24,9 +25,10 @@ public class NextActivity extends Activity{
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.next);
-        listView1=(ListView)findViewById(R.id.Two_listView);
-        listView1.setDivider(new ColorDrawable(Color.BLACK));
-        listView1.setDividerHeight(1);
+
+        listView=(ListView)findViewById(R.id.next_list);
+        listView.setDivider(new ColorDrawable(Color.BLACK));
+        listView.setDividerHeight(1);
         init();
     }
     private void init() {
@@ -35,9 +37,9 @@ public class NextActivity extends Activity{
     }
 
     private void inittop() {
-        TextView textView1 = (TextView) findViewById(R.id.top_textView);
-        textView1.setText(getIntent().getCharSequenceExtra("top"));
-        ImageButton bt = (ImageButton) findViewById(R.id.Return_Button);
+        TextView textView = (TextView) findViewById(R.id.title_text);
+        textView.setText(getIntent().getStringExtra("keyword"));
+        ImageButton bt = (ImageButton) findViewById(R.id.return_btn);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,24 +56,35 @@ public class NextActivity extends Activity{
             data.add(hashMap);
         }
 
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this,data,R.layout.main_item,new String[]{"nameTextView"},new int[]{R.id.nameTextView}){
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this,data,R.layout.main_item,new String[]{"nameTextView"},new int[]{R.id.text_name}){
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
                 ImageButton button = (ImageButton) view.findViewById(R.id.next_button);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("aaa", view.toString());
+                        Log.d(TAG, view.toString());
                         Intent intent = new Intent();
                         intent.setClass(NextActivity.this,LastActivity.class);
                         //intent.putExtra("top",textView.getText());
                         startActivity(intent);
                     }
                 });
+				view.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						TextView textView = (TextView) v.findViewById(R.id.text_name);
+						Log.d(TAG,"Item : onClick");
+						Intent intent = new Intent(NextActivity.this,PoiCatalogueShowActivity.class);
+						intent.putExtra("keyword",textView.getText());
+						startActivity(intent);
+					}
+				});
+
                 return view;
             }
         };
-        listView1.setAdapter(simpleAdapter);
+        listView.setAdapter(simpleAdapter);
     }
 
     private void initobjectdata() {

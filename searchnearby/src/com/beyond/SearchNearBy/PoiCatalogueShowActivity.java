@@ -2,10 +2,13 @@ package com.beyond.SearchNearBy;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -28,15 +31,31 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 public class PoiCatalogueShowActivity extends Activity {
-	private static final int SHOW_IN_LIST_MODE = 0;	//列表展示模式
-	private static final int SHOW_IN_MAP_MODE = 1;	//地图展示模式
-	private int current_page = 1;	//当前数据页
-	private int current_mode = SHOW_IN_LIST_MODE;	//当前展示模式
+	private static final String TAG="snb.PoiCatalogueShowActivity";
 
-	private static final String TAG="PoiCatalogueShowActivity";
-	private static final String strkey="783597182b97a05e39ade3876480efd8";
+	private int current_page = 1;							//默认数据页
+	private int max_page = 0;								//最大页数
+	private int current_mode = Content.SHOW_IN_LIST_MODE;	//默认展示模式
+	private int bundary = 2000;								//默认搜索范围
+	private int record = 15;								//默认数据页大小
+	private String keyword = null;							//搜索关键字
 
-	private POIData poiData = null;
+	private CurrentLocation currentLoc;
+	private ServiceConnection serviceCon = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			Log.d(TAG,"onServiceConnected: ComponentName"+name.getClassName());
+			CurrentLocation.ServiceBindler bindler = (CurrentLocation.ServiceBindler) service;
+			currentLoc = bindler.getService();
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			Log.d(TAG,"onServiceDisconnected: ComponentName"+name.getClassName());
+			currentLoc = null;
+		}
+	};
+
 	private MapController mapController = null;
 	private MapView cata_mapview = null;
 	private PoiOverlay poiOverlay = null;
@@ -45,13 +64,10 @@ public class PoiCatalogueShowActivity extends Activity {
 	private ListView cata_list = null;				//列表试图
 	private RelativeLayout cata_map = null;			//地图试图
 	private SimpleAdapter listadapter = null;
-	private ArrayList<HashMap<String,String>> poilist = null;	//记录数据
+	private ArrayList<HashMap<String,String>> poilist = null;	//记录列表数据
 
-	//测试数据，当前坐标点
-	private double longitude = 34.261301;
-	private double latitude = 108.948034;
-//	private double longitude = 0.0;
-//	private double latitude = 0.0;
+	private double longitude = 0.0;
+	private double latitude = 0.0;
 	private GeoPoint location = null;
 
 	private ImageButton mode_btn = null;
@@ -65,24 +81,55 @@ public class PoiCatalogueShowActivity extends Activity {
 		}
 		setContentView(R.layout.poi_catalogue_show);
 
-		initActivity();
+		Intent getdata = getIntent();
+		keyword = getdata.getStringExtra("keyword");
+		Log.d(TAG, "intent.getStringExtra: " + keyword);
+
+
+
+		new AsyncTask<Object, Object, Object>() {
+			ProgressDialog progressDialog = new ProgressDialog(PoiCatalogueShowActivity.this);
+
+			@Override
+			protected void onPreExecute() {
+				progressDialog.setMessage("定位中...");
+				progressDialog.show();
+				super.onPreExecute();
+			}
+
+			@Override
+			protected void onPostExecute(Object o) {
+				progressDialog.dismiss();
+				super.onPostExecute(o);
+			}
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				Intent intent = new Intent(PoiCatalogueShowActivity.this,CurrentLocation.class);
+				bindService(intent,serviceCon,BIND_AUTO_CREATE);
+				return null;
+			}
+		}.execute(0);
+
+        initActivity();
 	}
 
 
 	//初始化Activity
 	private void initActivity() {
-		//定位
-		poiData = new POIData();
-//		poiData.getCurrentByGPS(this);
-//
-//		longitude = poiData.getBDLocation().getLongitude();
-//		latitude = poiData.getBDLocation().getLatitude();
-		Log.d(TAG, "onReceiveLocation Longitude " + longitude);
-		Log.d(TAG, "onReceiveLocation Latitude " + latitude);
-		location = new GeoPoint((int)(longitude*1E6),(int)(latitude*1E6));
 
+        Log.d(TAG, " currentLoc " + currentLoc);
+        if(currentLoc == null){
+            longitude =108.908089;
+            latitude = 34.237386;
+            Log.d(TAG, "测试数据");
+        }else{
+            Log.d(TAG, "定位数据");
+            longitude = currentLoc.getBDLocation().getLongitude();
+            latitude = currentLoc.getBDLocation().getLatitude();
+        }
 
-		mode_btn = (ImageButton) findViewById(R.id.catalogue_list_mode);
+        mode_btn = (ImageButton) findViewById(R.id.catalogue_list_mode);
 		mode_btn.setImageResource(R.drawable.ic_action_map);
 
 		cata_map = (RelativeLayout) findViewById(R.id.catalogue_map_view);
@@ -90,21 +137,23 @@ public class PoiCatalogueShowActivity extends Activity {
 		//默认以列表模式展示数据
 		cata_map.setVisibility(View.GONE);
 
-		initCatalogueMap();
-		refreshCatalogueList();
-	}
-
-	//初始化地图
-	private void initCatalogueMap(){
-
-		Log.d(TAG,"init MapView!");
 		cata_mapview = (MapView) findViewById(R.id.catalogue_list_map);
 		mapController = cata_mapview.getController();
 
 		mapController.setZoom(17);			//设置初始缩放等级
 		mapController.setCenter(location);	//设置中心点
-		cata_mapview.setBuiltInZoomControls(true);
-		Log.d(TAG,"initCatalogueMap , My Location: "+location);
+		cata_mapview.setBuiltInZoomControls(false);
+
+        initCatalogueMap();
+        refreshCatalogueList();
+	}
+
+	//初始化地图
+	private void initCatalogueMap(){
+
+		Log.d(TAG, "onReceiveLocation Longitude " + longitude);
+		Log.d(TAG, "onReceiveLocation Latitude " + latitude);
+		location = new GeoPoint((int)(latitude*1E6),(int)(longitude*1E6));
 
 		//标记自己地理位置
 		Drawable mLocation = getResources().getDrawable(R.drawable.ic_current_loc);
@@ -158,7 +207,6 @@ public class PoiCatalogueShowActivity extends Activity {
 				}
 				else {
 					listadapter.notifyDataSetChanged();
-
 					Log.d(TAG," notifyDataSetChanged: "+listadapter.getItem(0));
 				}
 
@@ -186,7 +234,7 @@ public class PoiCatalogueShowActivity extends Activity {
 
 	//Json数据解析
 	private ArrayList<HashMap<String,String>> formatJson(){
-		String jsonstr = poiData.getPOIbyLocation(location,"中餐厅",3000,current_page,10);
+		String jsonstr = POIData.getPOIbyLocation(location,keyword,bundary,current_page,record);
 		ArrayList<HashMap<String,String>>listdata = new ArrayList<HashMap<String, String>>();
 		Log.d(TAG,"Json result:"+jsonstr);
 
@@ -200,7 +248,7 @@ public class PoiCatalogueShowActivity extends Activity {
 				Log.d(TAG,"index "+i+" : "+array.optJSONObject(i));
 				item.put("name", array.optJSONObject(i).optString("name"));
 				item.put("address", array.optJSONObject(i).optString("address"));
-				item.put("distance", array.optJSONObject(i).optString("distance"));
+				item.put("distance", array.optJSONObject(i).optString("distance")+"m");
 				item.put("longtitude", array.optJSONObject(i).optString("x"));
 				item.put("latitude", array.optJSONObject(i).optString("y"));
 				listdata.add(item);
@@ -218,18 +266,18 @@ public class PoiCatalogueShowActivity extends Activity {
 
 	//响应列表模式与地图模式切换
 	public void onModeChanged(View view){
-		if(current_mode == SHOW_IN_LIST_MODE){
+		if(current_mode == Content.SHOW_IN_LIST_MODE){
 			mode_btn.setImageResource(R.drawable.ic_action_list);
 			cata_map.setVisibility(View.VISIBLE);
 			cata_list.setVisibility(View.GONE);
-			current_mode = SHOW_IN_MAP_MODE;
+			current_mode = Content.SHOW_IN_MAP_MODE;
 			Log.d(TAG,"current_mode: SHOW_IN_MAP_MODE");
 		}
-		else if(current_mode == SHOW_IN_MAP_MODE){
+		else if(current_mode == Content.SHOW_IN_MAP_MODE){
 			mode_btn.setImageResource(R.drawable.ic_action_map);
 			cata_list.setVisibility(View.VISIBLE);
 			cata_map.setVisibility(View.GONE);
-			current_mode = SHOW_IN_LIST_MODE;
+			current_mode = Content.SHOW_IN_LIST_MODE;
 			Log.d(TAG,"current_mode: SHOW_IN_LIST_MODE");
 		}
 
@@ -263,18 +311,22 @@ public class PoiCatalogueShowActivity extends Activity {
 	@Override
 	protected void onResume() {
 		cata_mapview.onResume();
+		Intent intent = new Intent(this,CurrentLocation.class);
+		bindService(intent,serviceCon,BIND_AUTO_CREATE);
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		cata_mapview.onPause();
+		unbindService(serviceCon);
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		cata_mapview.destroy();
+		unbindService(serviceCon);
 		super.onDestroy();
 	}
 }

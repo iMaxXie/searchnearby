@@ -21,23 +21,22 @@ public class SearchActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
-    private ListView listView1;
+    private ListView listView;
     private ArrayList<HashMap<String, ?>> data = new ArrayList<HashMap<String, ?>>();
-    BaseAdapter baseAdapter;
+    private BaseAdapter baseAdapter;
     private int selectedPosition = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
-        listView1 = (ListView) findViewById(R.id.Search_listView);
+        listView = (ListView) findViewById(R.id.search_list);
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i < 20; i++) {
             HashMap<String, Object> item = new HashMap<String, Object>();
-            item.put("text1", "黄记煌三汁焖锅" + i);
-            item.put("text2", "西安南大街52号南附楼内3层" + i + " " + i);
-            item.put("value", "500m");
+            item.put("name", "黄记煌三汁焖锅" );
+            item.put("address", "西安南大街52号南附楼内3层");
+            item.put("distance", "500m");
             data.add(item);
         }
 
@@ -63,18 +62,18 @@ public class SearchActivity extends Activity {
 
                 if (convertView == null) {
                     LayoutInflater layoutInflater = getLayoutInflater();
-                    convertView = layoutInflater.inflate(R.layout.search_item, parent, false);
+                    convertView = layoutInflater.inflate(R.layout.catalogue_list_item, parent, false);
                 }
 
                 Map<String, Object> itemData = (Map<String, Object>) getItem(position);
 
-                TextView nameTextView = (TextView) convertView.findViewById(R.id.nameTextView);
-                TextView addressTextView = (TextView) convertView.findViewById(R.id.addressTextView);
-                TextView distanceTextView = (TextView) convertView.findViewById(R.id.distanceTextView);
+                TextView nameTextView = (TextView) convertView.findViewById(R.id.dept_name);
+                TextView addressTextView = (TextView) convertView.findViewById(R.id.dept_addr);
+                TextView distanceTextView = (TextView) convertView.findViewById(R.id.dept_distance);
 
-                nameTextView.setText(itemData.get("text1").toString());
-                addressTextView.setText(itemData.get("text2").toString());
-                distanceTextView.setText(itemData.get("value").toString());
+                nameTextView.setText(itemData.get("name").toString());
+                addressTextView.setText(itemData.get("address").toString());
+                distanceTextView.setText(itemData.get("distance").toString());
 
 
                 if (position == selectedPosition) {
@@ -85,8 +84,8 @@ public class SearchActivity extends Activity {
         };
 
 
-        listView1.setAdapter(baseAdapter);
-        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setAdapter(baseAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position,long itemId) {
@@ -96,4 +95,8 @@ public class SearchActivity extends Activity {
         });
 
     }
+
+	public void onSearchBackClick(View view){
+		finish();
+	}
 }

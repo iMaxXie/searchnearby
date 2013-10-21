@@ -31,65 +31,8 @@ import java.util.Enumeration;
  */
 public class POIData {
 
-	private BDLocation bdLoc = new BDLocation();
 
-	public BDLocation getBDLocation(){
-		return bdLoc;
-	}
-
-	public void getCurrentByGPS(Context content){
-		LocationClient locClient = new LocationClient(content);
-		LocationClientOption locOption = new LocationClientOption();
-		locOption.setOpenGps(true);//打开gps
-		locOption.setCoorType("bd09ll");//设置坐标类型
-		locOption.setAddrType("all");
-		locOption.setScanSpan(1000);//设置超时
-		locClient.setLocOption(locOption);
-
-		locClient.registerLocationListener(new BDLocationListener() {
-			@Override
-			public void onReceiveLocation(BDLocation bdLocation) {
-				Log.d("POIData", "onReceiveLocation address " + bdLocation.getAddrStr());
-				Log.d("POIData", "onReceiveLocation Latitude " + bdLocation.getLatitude());
-				Log.d("POIData", "onReceiveLocation Longitude " + bdLocation.getLongitude());
-
-				bdLoc = bdLocation;
-			}
-
-			@Override
-			public void onReceivePoi(BDLocation bdLocation) {
-				if (bdLocation == null){
-					return ;
-				}
-			}
-		});
-		locClient.start();
-		locClient.requestLocation();
-	}
-
-
-	public String getCurrentByIP(){
-		try {
-			for(Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();en.hasMoreElements();)
-			{
-				NetworkInterface intf = en.nextElement();
-				for(Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();){
-					InetAddress inetAddress = enumIpAddr.nextElement();
-					if(!inetAddress.isLoopbackAddress() &&
-							InetAddressUtils.isIPv4Address(inetAddress.getHostAddress())){
-
-							return inetAddress.getHostAddress().toString();
-					}
-				}
-			}
-		} catch (SocketException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
-		return null;
-	}
-
-
-	public String getPOIbyLocation(GeoPoint point,String keyword, int range, int page, int count){
+	public static String getPOIbyLocation(GeoPoint point,String keyword, int range, int page, int count){
 
 		String url = "https://api.weibo.com/2/location/pois/search/by_geo.json?";
 		String result = null;

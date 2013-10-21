@@ -2,13 +2,16 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
-              android:layout_height="40dp"
+              android:layout_height="44dp"
+			  android:paddingLeft="10dp"
+			  android:paddingRight="10dp"
               android:background="#ffffff">
 
         <TextView
-				android:id="@+id/nameTextView"
-                  android:layout_width="270dp"
-                  android:layout_height="match_parent"
+				android:id="@+id/text_name"
+				android:layout_weight="1"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
                   android:gravity="center_vertical"
                   android:text="餐饮服务"
                   android:textSize="18dp"
@@ -18,5 +21,5 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_gravity="center_vertical"
-                     android:background="@drawable/ic_next_step"/>
+                     android:background="@drawable/next_step_btn"/>
 </LinearLayout>

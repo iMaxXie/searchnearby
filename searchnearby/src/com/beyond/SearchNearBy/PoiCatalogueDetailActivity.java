@@ -16,7 +16,7 @@ import com.baidu.mapapi.map.MapView;
  * To change this template use File | Settings | File Templates.
  */
 public class PoiCatalogueDetailActivity extends Activity {
-	private static final String TAG = "PoiCatalogueDetailActivity";
+	private static final String TAG = "snb.PoiCatalogueDetailActivity";
 
 	private MapView detail_mapview = null;
 	private MapController mapController = null;
@@ -54,7 +54,7 @@ public class PoiCatalogueDetailActivity extends Activity {
 //		poiOverlay = new PoiOverlay(marker,cata_mapview);
 	}
 
-	public void onBackClick(View view){
+	public void onDetailBackClick(View view){
 		finish();
 	}
 

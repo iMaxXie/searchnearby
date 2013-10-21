@@ -3,33 +3,33 @@
 			  android:orientation="vertical"
 			  android:layout_width="fill_parent"
 			  android:layout_height="fill_parent"
-              android:background="#ffffff">
-	  <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:background="@drawable/bg_title_bar">
+			  android:background="#ffffff">
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/bg_title_bar">
 
-          <ImageButton  android:id="@+id/return_button"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_gravity="center_vertical"
-                       android:layout_marginLeft="5dp"
-                       android:background="@drawable/ic_nav_back"/>
+		<ImageButton android:layout_width="wrap_content"
+					 android:layout_height="wrap_content"
+					 android:layout_marginLeft="5dp"
+					 android:src="@drawable/ic_nav_back"
+					 android:background="@drawable/bg_button"
+					 android:onClick="onSetBackClick"/>
 
-           <TextView  android:layout_height="wrap_content"
-                       android:layout_width="match_parent"
-                       android:text="关于"
-                       android:textSize="18dp"
-                       android:textColor="#ffffff"
-                       android:layout_marginLeft="100dp"
-                       android:layout_gravity="center" />
-    	</LinearLayout>
+		<TextView  android:layout_height="wrap_content"
+				   android:layout_width="fill_parent"
+				   android:gravity="center"
+				   android:layout_marginTop="7dp"
+				   android:text="关于"
+				   android:textSize="18dp"
+				   android:textColor="#ffffff"/>
+	</RelativeLayout>
 
-            <EditText  android:layout_height="match_parent"
-                       android:layout_width="match_parent"
-                       android:text="软件版本1.0.0"
-                       android:paddingTop="15dp"
-                       android:textSize="18dp"
-                       android:gravity="center_horizontal"/>
+	<TextView  android:layout_height="match_parent"
+			   android:layout_width="match_parent"
+			   android:text="软件版本1.0.0"
+			   android:paddingTop="15dp"
+			   android:textSize="18dp"
+			   android:gravity="center_horizontal"/>
 </LinearLayout>
 

@@ -8,31 +8,32 @@
 
 	<RelativeLayout android:layout_width="fill_parent"
 					android:layout_height="44dp"
+					android:paddingLeft="5dp"
+					android:paddingRight="5dp"
 					android:background="@drawable/bg_title_bar">
 
 		<ImageButton android:id="@+id/catalogue_list_back"
 					 android:layout_width="wrap_content"
 					 android:layout_height="wrap_content"
 					 android:layout_alignParentLeft="true"
-					 android:layout_marginLeft="10dp"
 					 android:src="@drawable/ic_nav_back"
 					 android:background="@drawable/bg_button"
-				android:onClick="onListBackClick"/>
+					 android:onClick="onListBackClick"/>
 
 		<ImageButton android:id="@+id/catalogue_list_mode"
 					 android:layout_width="wrap_content"
 					 android:layout_height="wrap_content"
 					 android:layout_alignParentRight="true"
-					 android:layout_marginRight="10dp"
 					 android:src="@drawable/ic_action_map"
 					 android:background="@drawable/bg_button"
-				android:onClick="onModeChanged"/>
+					 android:onClick="onModeChanged"/>
 
 		<ImageButton android:id="@+id/catalogue_list_refresh"
 					 android:layout_width="wrap_content"
 					 android:layout_height="wrap_content"
 					 android:layout_toLeftOf="@id/catalogue_list_mode"
 					 android:layout_marginRight="10dp"
+					 android:layout_marginTop="5dp"
 					 android:src="@drawable/ic_refresh"
 					 android:background="@drawable/bg_button"
 					 android:onClick="onListBackClick"/>
@@ -74,7 +75,7 @@
 				 android:layout_height="fill_parent">
 
 		<RelativeLayout android:id="@+id/catalogue_map_view"
-				android:layout_width="fill_parent"
+						android:layout_width="fill_parent"
 						android:layout_height="fill_parent">
 
 			<com.baidu.mapapi.map.MapView android:id="@+id/catalogue_list_map"
@@ -87,7 +88,7 @@
 						 android:layout_alignParentBottom="true"
 						 android:layout_alignParentLeft="true"
 						 android:background="@drawable/previous_step_btn"
-							android:onClick="onPageChange"/>
+						 android:onClick="onPageChange"/>
 
 			<ImageButton android:id="@+id/next"
 						 android:layout_width="wrap_content"
@@ -104,7 +105,7 @@
 						 android:layout_alignParentBottom="true"
 						 android:layout_alignParentRight="true"
 						 android:background="@drawable/location_step_btn"
-					android:onClick="onLocationToCenter"/>
+						 android:onClick="onLocationToCenter"/>
 		</RelativeLayout>
 
 		<ListView android:id="@+id/catalogue_list_view"
