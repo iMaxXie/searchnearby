@@ -1,8 +1,10 @@
 package com.beyond.SearchNearBy;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.drawable.Drawable;
@@ -39,8 +41,8 @@ public class PoiCatalogueShowActivity extends Activity {
     private int bundary = 2000;								//默认搜索范围
     private int record = 10;								//默认数据页大小
     private String keyword = null;							//搜索关键字
-
-    private CurrentLocation currentLoc;
+    private LinearLayout boundary_select;                  //选择范围
+    private CurrentLocation currentLoc;                      //当前位置
     private ServiceConnection serviceCon = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -83,24 +85,39 @@ public class PoiCatalogueShowActivity extends Activity {
         }
         setContentView(R.layout.poi_catalogue_show);
 
+//-----------------------------------------------------------------------------------------------------------------------//
+        //选择范围点击事件
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        boundary_select = (LinearLayout) findViewById(R.id.boundary_select);
+        boundary_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] radius = new String[]{"1000m内", "2000m内", "3000m内", "4000m内", "5000m内"};
+                builder.setItems(radius, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int a) {
+                        TextView textView = (TextView) findViewById(R.id.boundary_value);
+                        textView.setText(radius[a]);
+                    }
+                });
+                builder.show();
+            }
+        });
+//-----------------------------------------------------------------------------------------------------------------------//
+
+
         Intent getdata = getIntent();
         keyword = getdata.getStringExtra("keyword");
         Log.d(TAG, "intent.getStringExtra: " + keyword);
-
         Intent intent = new Intent(this,CurrentLocation.class);
         bindService(intent,serviceCon,BIND_AUTO_CREATE);
-
         initActivity();
     }
 
 
     //初始化Activity
     private void initActivity() {
-
-
-
-
-
         Log.d(TAG, " currentLoc " + currentLoc);
         if(currentLoc == null){
             longitude =108.908089;
@@ -161,7 +178,6 @@ public class PoiCatalogueShowActivity extends Activity {
 
     //刷新数据，同时刷新listview与mapview
     private void refreshCatalogueList(){
-
         AsyncTask<Object,Object,Object> task = new AsyncTask<Object, Object, Object>() {
             ProgressDialog progressDialog = new ProgressDialog(PoiCatalogueShowActivity.this);
 
