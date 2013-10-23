@@ -125,27 +125,12 @@ public class LastActivity extends Activity{
             objectdata.add("吉野家");
             objectdata.add("仙跡岩");
         }
-        if(textView.equals("休闲餐饮场所")){
-            objectdata.add("休闲餐饮场所");
-        }
 
         if(textView.equals("咖啡厅")){
             objectdata.add("星巴克咖啡");
             objectdata.add("上岛咖啡");
             objectdata.add("Pacifi Ccoffee Company");
             objectdata.add("巴黎咖啡店");
-        }
-        if(textView.equals("茶艺馆")){
-            objectdata.add("茶艺馆");
-        }
-        if(textView.equals("冷饮店")){
-            objectdata.add("冷饮店");
-        }
-        if(textView.equals("饼糕店")){
-            objectdata.add("饼糕店");
-        }
-        if(textView.equals("甜品店")){
-            objectdata.add("甜品店");
         }
 
         if(textView.equals("商场")){
@@ -155,13 +140,11 @@ public class LastActivity extends Activity{
             objectdata.add("免税品店");
         }
 
-
         if(textView.equals("便民商店／便利店")){
             objectdata.add("便民商店／便利店");
             objectdata.add("7-ELEVEN便利店");
             objectdata.add("OK便利店");
         }
-
 
         if(textView.equals("家电电子卖场")){
             objectdata.add("家电电子卖场");
@@ -215,9 +198,7 @@ public class LastActivity extends Activity{
             objectdata.add("蔬菜市场");
             objectdata.add("水产海鲜市场");
         }
-        if(textView.equals("文化用品店")){
-            objectdata.add("文化用品店");
-        }
+
         if(textView.equals("体育用品店")){
             objectdata.add("体育用品店");
             objectdata.add("李宁专卖店");
@@ -263,15 +244,7 @@ public class LastActivity extends Activity{
             objectdata.add("其它个人用品店");
             objectdata.add("莎莎");
         }
-        if(textView.equals("生活服务场所")){
-            objectdata.add("生活服务场所");
-        }
-        if(textView.equals("旅行社")){
-            objectdata.add("旅行社");
-        }
-        if(textView.equals("信息咨询中心")){
-            objectdata.add("信息咨询中心");
-        }
+
         if(textView.equals("售票处")){
             objectdata.add("售票处");
             objectdata.add("飞机票代售点");
@@ -285,9 +258,7 @@ public class LastActivity extends Activity{
             objectdata.add("邮局");
             objectdata.add("邮政速递");
         }
-        if(textView.equals("物流速递")){
-            objectdata.add("物流速递");
-        }
+
         if(textView.equals("电讯营业厅")){
             objectdata.add("电讯营业厅");
             objectdata.add("中国电信营业厅");
@@ -310,45 +281,15 @@ public class LastActivity extends Activity{
             objectdata.add("认证事务所");
             objectdata.add("专利事务所");
         }
-        if(textView.equals("人才市场")){
-            objectdata.add("人才市场");
-        }
-        if(textView.equals("自来水营业厅")){
-            objectdata.add("自来水营业厅");
-        }
-        if(textView.equals("电力营业厅")){
-            objectdata.add("电力营业厅");
-        }
-        if(textView.equals("美容美发店")){
-            objectdata.add("美容美发店");
-        }
-        if(textView.equals("维修站点")){
-            objectdata.add("维修站点");
-        }
-        if(textView.equals("摄影冲印店")){
-            objectdata.add("摄影冲印店");
-        }
-        if(textView.equals("洗浴推拿场所")){
-            objectdata.add("洗浴推拿场所");
-        }
-        if(textView.equals("洗衣店")){
-            objectdata.add("洗衣店");
-        }
-        if(textView.equals("中介机构")){
-            objectdata.add("中介机构");
-        }
-        if(textView.equals("搬家公司")){
-            objectdata.add("搬家公司");
-        }
+
         if(textView.equals("彩票彩券销售点")){
             objectdata.add("彩票彩券销售点");
             objectdata.add("马会投注站");
         }
         if(textView.equals("丧葬设施")){
-            objectdata.add("丧葬设施");
-            objectdata.add("丧葬设施");
-            objectdata.add("丧葬设施");
-            objectdata.add("丧葬设施");
+            objectdata.add("公墓");
+            objectdata.add("陵园");
+            objectdata.add("殡仪馆");
         }
         if(textView.equals("体育休闲服务场所")){
             objectdata.add("体育休闲服务场所");
@@ -432,15 +373,7 @@ public class LastActivity extends Activity{
             objectdata.add("精神病医院");
             objectdata.add("传染病医院");
         }
-        if(textView.equals("诊所")){
-            objectdata.add("诊所");
-        }
-        if(textView.equals("急救中心")){
-            objectdata.add("急救中心");
-        }
-        if(textView.equals("疾病预防机构")){
-            objectdata.add("疾病预防机构");
-        }
+
         if(textView.equals("医药保健相关")){
             objectdata.add("医药保健相关");
             objectdata.add("药房");
@@ -451,9 +384,7 @@ public class LastActivity extends Activity{
             objectdata.add("宠物诊所");
             objectdata.add("兽医站");
         }
-        if(textView.equals("住宿服务相关")){
-            objectdata.add("住宿服务相关");
-        }
+
         if(textView.equals("宾馆酒店")){
             objectdata.add("宾馆酒店");
             objectdata.add("六星级宾馆");
@@ -466,9 +397,7 @@ public class LastActivity extends Activity{
             objectdata.add("旅馆招待所");
             objectdata.add("青年旅社");
         }
-        if(textView.equals("风景名胜相关")){
-            objectdata.add("风景名胜相关");
-        }
+
         if(textView.equals("公园广场")){
             objectdata.add("公园广场");
             objectdata.add("公园");
@@ -488,12 +417,7 @@ public class LastActivity extends Activity{
             objectdata.add("回教寺");
             objectdata.add("海滩");
         }
-        if(textView.equals("商务住宅相关")){
-            objectdata.add("商务住宅相关");
-        }
-        if(textView.equals("产业园区")){
-            objectdata.add("产业园区");
-        }
+
         if(textView.equals("楼宇")){
             objectdata.add("楼宇相关");
             objectdata.add("商务写字楼");
@@ -522,9 +446,6 @@ public class LastActivity extends Activity{
             objectdata.add("外国机构相关");
             objectdata.add("外国使领馆");
             objectdata.add("国际组织办事处");
-        }
-        if(textView.equals("民主党派")){
-            objectdata.add("民主党派");
         }
         if(textView.equals("社会团体")){
             objectdata.add("社会团体相关");
@@ -560,40 +481,10 @@ public class LastActivity extends Activity{
             objectdata.add("国税机关");
             objectdata.add("地税机关");
         }
-        if(textView.equals("科教文化场所")){
-            objectdata.add("科教文化场所");
-        }
         if(textView.equals("博物馆")){
             objectdata.add("博物馆");
             objectdata.add("奥迪博物馆");
             objectdata.add("奔驰博物馆");
-        }
-        if(textView.equals("展览馆")){
-            objectdata.add("展览馆");
-        }
-        if(textView.equals("会展中心")){
-            objectdata.add("会展中心");
-        }
-        if(textView.equals("美术馆")){
-            objectdata.add("美术馆");
-        }
-        if(textView.equals("图书馆")){
-            objectdata.add("图书馆");
-        }
-        if(textView.equals("科技馆")){
-            objectdata.add("科技馆");
-        }
-        if(textView.equals("天文馆")){
-            objectdata.add("天文馆");
-        }
-        if(textView.equals("文化宫")){
-            objectdata.add("文化宫");
-        }
-        if(textView.equals("档案馆")){
-            objectdata.add("档案馆");
-        }
-        if(textView.equals("文艺团体")){
-            objectdata.add("文艺团体");
         }
         if(textView.equals("传媒机构")){
             objectdata.add("传媒机构");
@@ -612,38 +503,11 @@ public class LastActivity extends Activity{
             objectdata.add("成人教育");
             objectdata.add("职业技术学校");
         }
-        if(textView.equals("科研机构")){
-            objectdata.add("科研机构");
-        }
-        if(textView.equals("培训机构")){
-            objectdata.add("培训机构");
-        }
-        if(textView.equals("驾校")){
-            objectdata.add("驾校");
-        }
-        if(textView.equals("交通服务相关")){
-            objectdata.add("交通服务相关");
-        }
-        if(textView.equals("飞机场")){
-            objectdata.add("飞机场");
-        }
-        if(textView.equals("火车站")){
-            objectdata.add("火车站");
-        }
         if(textView.equals("港口码头")){
             objectdata.add("港口码头");
             objectdata.add("客运港");
             objectdata.add("车渡口");
             objectdata.add("人渡口");
-        }
-        if(textView.equals("长途汽车站")){
-            objectdata.add("长途汽车站");
-        }
-        if(textView.equals("地铁站")){
-            objectdata.add("地铁站");
-        }
-        if(textView.equals("轻轨站")){
-            objectdata.add("轻轨站");
         }
         if(textView.equals("公交车站")){
             objectdata.add("公交车站相关");
@@ -658,9 +522,6 @@ public class LastActivity extends Activity{
             objectdata.add("室内停车场");
             objectdata.add("室外停车场");
             objectdata.add("停车换乘点");
-        }
-        if(textView.equals("过境口岸")){
-            objectdata.add("过境口岸");
         }
         if(textView.equals("金融保险服务机构")){
             objectdata.add("金融保险服务机构");
@@ -715,9 +576,6 @@ public class LastActivity extends Activity{
             objectdata.add("大新银行");
             objectdata.add("中信嘉华银行");
             objectdata.add("大众银行(香港)");
-        }
-        if(textView.equals("银行相关")){
-            objectdata.add("银行相关");
         }
         if(textView.equals("自动提款机")){
             objectdata.add("自动提款机ATM");
@@ -782,15 +640,6 @@ public class LastActivity extends Activity{
             objectdata.add("证券公司");
             objectdata.add("证券营业厅");
         }
-        if(textView.equals("财务公司")){
-            objectdata.add("财务公司");
-        }
-        if(textView.equals("公司企业")){
-            objectdata.add("公司企业");
-        }
-        if(textView.equals("知名企业")){
-            objectdata.add("知名企业");
-        }
         if(textView.equals("公司")){
             objectdata.add("公司");
             objectdata.add("广告装饰");
@@ -803,9 +652,6 @@ public class LastActivity extends Activity{
             objectdata.add("电信公司");
             objectdata.add("矿产公司");
         }
-        if(textView.equals("工厂")){
-            objectdata.add("工厂");
-        }
         if(textView.equals("农林牧渔基地")){
             objectdata.add("农林牧渔基地");
             objectdata.add("渔场");
@@ -816,9 +662,6 @@ public class LastActivity extends Activity{
             objectdata.add("蔬菜基地");
             objectdata.add("水果基地");
             objectdata.add("花卉苗圃基地");
-        }
-        if(textView.equals("道路附属设施")){
-            objectdata.add("道路附属设施");
         }
         if(textView.equals("收费站")){
             objectdata.add("收费站");
@@ -831,9 +674,6 @@ public class LastActivity extends Activity{
             objectdata.add("高速服务区");
             objectdata.add("高速停车区");
         }
-        if(textView.equals("地名地址信息")){
-            objectdata.add("地名地址信息");
-        }
         if(textView.equals("交通地名")){
             objectdata.add("交通地名");
             objectdata.add("环岛名");
@@ -842,24 +682,5 @@ public class LastActivity extends Activity{
             objectdata.add("立交桥");
             objectdata.add("桥");
         }
-        if(textView.equals("城市中心")){
-            objectdata.add("城市中心");
-        }
-        if(textView.equals("公共设施")){
-            objectdata.add("公共设施");
-        }
-        if(textView.equals("报刊亭")){
-            objectdata.add("报刊亭");
-        }
-        if(textView.equals("公用电话")){
-            objectdata.add("公用电话");
-        }
-        if(textView.equals("公共厕所")){
-            objectdata.add("公共厕所");
-        }
-        if(textView.equals("紧急避难场所")){
-            objectdata.add("紧急避难场所");
-        }
-
     }
 }

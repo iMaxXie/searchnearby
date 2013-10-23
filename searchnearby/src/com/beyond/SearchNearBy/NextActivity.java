@@ -62,6 +62,7 @@ public class NextActivity extends Activity{
                 View view =super.getView(position, convertView, parent);
                 ImageButton button = (ImageButton) view.findViewById(R.id.next_button);
                 final TextView textView = (TextView) view.findViewById(R.id.text_name);
+                button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -134,9 +135,6 @@ public class NextActivity extends Activity{
                     button.setVisibility(View.GONE);
                 }
                 if(textView.getText().equals("搬家公司")){
-                    button.setVisibility(View.GONE);
-                }
-                if(textView.getText().equals("彩票彩券销售点")){
                     button.setVisibility(View.GONE);
                 }
                 if(textView.getText().equals("诊所")){
@@ -218,9 +216,6 @@ public class NextActivity extends Activity{
                     button.setVisibility(View.GONE);
                 }
                 if(textView.getText().equals("城市中心")){
-                    button.setVisibility(View.GONE);
-                }
-                if(textView.getText().equals("公共设施")){
                     button.setVisibility(View.GONE);
                 }
                 if(textView.getText().equals("报刊亭")){
@@ -364,9 +359,6 @@ public class NextActivity extends Activity{
             objectdata.add("文化宫");
             objectdata.add("档案馆");
             objectdata.add("文艺团体");
-            objectdata.add("外国餐厅");
-            objectdata.add("快餐厅");
-            objectdata.add("休闲餐饮场所");
             objectdata.add("传媒机构");
             objectdata.add("学校");
             objectdata.add("科研机构");

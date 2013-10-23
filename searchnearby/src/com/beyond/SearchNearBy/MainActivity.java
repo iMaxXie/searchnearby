@@ -159,12 +159,6 @@ public class MainActivity extends Activity{
         objectdata.add("医疗保健服务");
         objectdata.add("科教文化服务");
         objectdata.add("交通设施服务");
-        objectdata.add("公共服务");
-        objectdata.add("住宿服务");
-        objectdata.add("医疗保健服务");
-        objectdata.add("科教文化服务");
-        objectdata.add("交通设施服务");
-        objectdata.add("公共服务");
-
+        objectdata.add("公共设施");
     }
 }

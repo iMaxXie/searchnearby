@@ -43,7 +43,7 @@ public class CurrentLocation extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		Log.d(TAG,"onBind "+intent.getPackage());
+		Log.d(TAG,"onBind ");
 		return bindler;
 	}
 
@@ -67,12 +67,11 @@ public class CurrentLocation extends Service {
 		locClient = new LocationClient(content);
 		locOption = new LocationClientOption();
 
-		//locClient.setAK(Content.strkey);
+		locClient.setAK(Content.strkey);
 		locOption.setOpenGps(true);			//打开gps
 		locOption.setCoorType("bd09ll");	//设置坐标类型
 		locOption.setAddrType("all");
 		locOption.setScanSpan(1000);		//请求间隔
-		//locOption.setPriority(LocationClientOption.GpsFirst);
 		locClient.setLocOption(locOption);
 
 		locClient.registerLocationListener(new BDLocationListener() {
@@ -89,13 +88,6 @@ public class CurrentLocation extends Service {
 					Log.d(TAG, "onReceiveLocation latitude " + bdLocation.getLatitude());
 					Log.d(TAG, "onReceiveLocation longitude " + bdLocation.getLongitude());
 					bdLoc = bdLocation;
-
-//					Intent intent = new Intent();
-//					intent.setAction("com.searchnearby.currentlocation");
-//					intent.putExtra("address", bdLocation.getAddrStr());
-//					intent.putExtra("latitude",bdLocation.getLatitude());
-//					intent.putExtra("longitude",bdLocation.getLongitude());
-//					sendBroadcast(intent);
 
 					locClient.stop();
 				}
