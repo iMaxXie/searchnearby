@@ -16,7 +16,6 @@ public class MapManagerApplication extends Application {
 	public boolean m_bKeyRight = true;
 	BMapManager mBMapManager = null;
 
-
 	@Override
 	public void onCreate() {
 		super.onCreate();

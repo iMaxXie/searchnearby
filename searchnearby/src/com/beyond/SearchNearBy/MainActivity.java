@@ -150,8 +150,7 @@ public class MainActivity extends Activity{
 		stopService(intent);
 		super.onDestroy();
 	}
-
-	private void initobjectdata() {
+	private void initobjectdata(){
         objectdata.add("餐饮服务");
         objectdata.add("购物服务");
         objectdata.add("生活服务");
@@ -168,6 +167,4 @@ public class MainActivity extends Activity{
         objectdata.add("公共服务");
 
     }
-
-
 }

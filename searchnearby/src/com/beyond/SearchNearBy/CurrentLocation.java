@@ -67,7 +67,7 @@ public class CurrentLocation extends Service {
 		locClient = new LocationClient(content);
 		locOption = new LocationClientOption();
 
-		locClient.setAK(Content.strkey);
+		//locClient.setAK(Content.strkey);
 		locOption.setOpenGps(true);			//打开gps
 		locOption.setCoorType("bd09ll");	//设置坐标类型
 		locOption.setAddrType("all");

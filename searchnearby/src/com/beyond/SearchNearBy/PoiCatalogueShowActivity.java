@@ -37,7 +37,7 @@ public class PoiCatalogueShowActivity extends Activity {
 	private int max_page = 0;								//最大页数
 	private int current_mode = Content.SHOW_IN_LIST_MODE;	//默认展示模式
 	private int bundary = 2000;								//默认搜索范围
-	private int record = 15;								//默认数据页大小
+	private int record = 10;								//默认数据页大小
 	private String keyword = null;							//搜索关键字
 
 	private CurrentLocation currentLoc;
@@ -129,6 +129,10 @@ public class PoiCatalogueShowActivity extends Activity {
             latitude = currentLoc.getBDLocation().getLatitude();
         }
 
+        Log.d(TAG, "onReceiveLocation Longitude " + longitude);
+        Log.d(TAG, "onReceiveLocation Latitude " + latitude);
+        location = new GeoPoint((int)(latitude*1E6),(int)(longitude*1E6));
+
         mode_btn = (ImageButton) findViewById(R.id.catalogue_list_mode);
 		mode_btn.setImageResource(R.drawable.ic_action_map);
 
@@ -150,10 +154,6 @@ public class PoiCatalogueShowActivity extends Activity {
 
 	//初始化地图
 	private void initCatalogueMap(){
-
-		Log.d(TAG, "onReceiveLocation Longitude " + longitude);
-		Log.d(TAG, "onReceiveLocation Latitude " + latitude);
-		location = new GeoPoint((int)(latitude*1E6),(int)(longitude*1E6));
 
 		//标记自己地理位置
 		Drawable mLocation = getResources().getDrawable(R.drawable.ic_current_loc);
@@ -329,4 +329,5 @@ public class PoiCatalogueShowActivity extends Activity {
 		unbindService(serviceCon);
 		super.onDestroy();
 	}
+
 }
