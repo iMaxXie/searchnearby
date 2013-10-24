@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent"
+			  android:background="#ababab">
+
+	<RelativeLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:paddingRight="5dp"
+					android:paddingLeft="5dp"
+					android:background="@drawable/bg_title_bar">
+
+		<ImageButton  android:id="@+id/return_btn"
+					  android:layout_width="wrap_content"
+					  android:layout_height="wrap_content"
+					  android:layout_gravity="center_vertical"
+					  android:layout_marginLeft="5dp"
+					  android:src="@drawable/ic_nav_back"
+					  android:background="@drawable/bg_button"/>
+
+		<TextView  android:id="@+id/title_text"
+				   android:layout_height="wrap_content"
+				   android:layout_width="match_parent"
+				   android:gravity="center"
+				   android:layout_marginTop="7dp"
+				   android:text="餐饮服务"
+				   android:textSize="18dp"
+				   android:textColor="#ffffff"/>
+	</RelativeLayout>
+
+	<ListView android:id="@+id/next_list"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent">
+	</ListView>
+</LinearLayout>
+

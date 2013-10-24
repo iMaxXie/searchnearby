@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent"
+			  android:background="#ababab">
+
+	<LinearLayout android:layout_width="fill_parent"
+				  android:layout_height="wrap_content"
+				  android:paddingRight="5dp"
+				  android:paddingLeft="5dp"
+				  android:background="@drawable/bg_title_bar">
+
+		<ImageButton android:id="@+id/search_button"
+					 android:layout_width="wrap_content"
+					 android:layout_height="wrap_content"
+					 android:layout_gravity="center_vertical"
+					 android:src="@drawable/abs__ic_search"
+					 android:background="@drawable/bg_button"/>
+
+		<TextView android:id="@+id/top_textview"
+				  android:layout_weight="1"
+				  android:layout_height="wrap_content"
+				  android:layout_width="fill_parent"
+				  android:layout_gravity="center_vertical"
+				  android:text="搜周边"
+				  android:textSize="18dp"
+				  android:textColor="#ffffff"
+				  android:gravity="center"/>
+
+		<ImageButton  android:id="@+id/setting_button"
+					  android:layout_width="wrap_content"
+					  android:layout_height="wrap_content"
+					  android:layout_gravity="center_vertical"
+					  android:layout_alignParentRight="true"
+					  android:src="@drawable/ic_action_setting"
+					  android:background="@drawable/bg_button"/>
+	</LinearLayout>
+
+	<ListView android:id="@+id/main_list"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent"
+			  android:layout_weight="1">
+	</ListView>
+
+	<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="5dp"
+			android:paddingRight="5dp"
+			android:background="@drawable/bg_title_bar">
+
+		<TextView android:id="@+id/place_text"
+				  android:layout_weight="1"
+				  android:layout_height="wrap_content"
+				  android:layout_width="fill_parent"
+				  android:text="定位中,请稍等..."
+				  android:textSize="14dp"
+				  android:textColor="#ffffff"
+				  android:layout_gravity="center_vertical"
+				  android:layout_marginLeft="5dp"/>
+
+		<ImageButton  android:id="@+id/location_button"
+					  android:layout_width="wrap_content"
+					  android:layout_height="wrap_content"
+					  android:layout_gravity="center_vertical"
+					  android:layout_marginLeft="5dp"
+					  android:src="@drawable/ic_localbar_location"
+					  android:background="@drawable/bg_button"/>
+	</LinearLayout>
+</LinearLayout>
+

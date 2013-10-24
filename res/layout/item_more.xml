@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/item_layout"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="#ffffff">
+
+    <TextView android:id="@+id/item_range"
+              android:layout_width="fill_parent"
+              android:layout_height="30dp"
+              android:gravity="center"
+            android:text="加载更多"/>
+
+</LinearLayout>
