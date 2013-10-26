@@ -26,6 +26,14 @@ import java.util.HashMap;
 public class PoiManager {
     public static final String TAG = "snb.PoiManager";
 
+    //新浪API返回poi经纬度偏移修正
+    public static double[] amendOffSet(String lat,String log){
+        double[] point = {0.0,0.0};
+        point[0] = Double.parseDouble(lat)+Content.LATITUDE_OFFSET;
+        point[1] = Double.parseDouble(log)+Content.LONGITUDE_OFFSET;
+        return point;
+    }
+
     //Json数据解析
     public static ArrayList<HashMap<String,String>> formatJson(String jsonstr){
         ArrayList<HashMap<String,String>>listdata = new ArrayList<HashMap<String, String>>();
@@ -40,12 +48,14 @@ public class PoiManager {
 
             for(int i=0; i<array.length(); i++){
                 HashMap<String,String> item = new HashMap<String, String>();
+                double[] point = {0.0,0.0};
+                point = amendOffSet(array.optJSONObject(i).optString("y"),array.optJSONObject(i).optString("x"));
                 Log.d(TAG,"index "+i+" : "+array.optJSONObject(i));
                 item.put("name", array.optJSONObject(i).optString("name"));
                 item.put("address", array.optJSONObject(i).optString("address"));
                 item.put("distance", array.optJSONObject(i).optString("distance")+"m");
-                item.put("longtitude", array.optJSONObject(i).optString("x"));
-                item.put("latitude", array.optJSONObject(i).optString("y"));
+                item.put("longtitude", Double.toString(point[1]));
+                item.put("latitude", Double.toString(point[0]));
                 item.put("tel", array.optJSONObject(i).optString("tel"));
                 listdata.add(item);
                 //datalist.add(item);
