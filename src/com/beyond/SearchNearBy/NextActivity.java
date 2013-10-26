@@ -16,11 +16,15 @@ import java.util.List;
 import java.util.Map;
 
 public class NextActivity extends Activity{
-	private final String TAG="NextActivity";
+	private final String TAG="snb.NextActivity";
     private ListView listView;
     private List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
     private ArrayList<String>objectdata = new ArrayList<String>();
     private String textView = null;
+
+    private double mylongitude = 0.0;
+    private double mylatitude = 0.0;
+    private String keyword = null;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -29,16 +33,23 @@ public class NextActivity extends Activity{
         listView=(ListView)findViewById(R.id.next_list);
         listView.setDivider(new ColorDrawable(Color.BLACK));
         listView.setDividerHeight(1);
-        init();
-    }
-    private void init() {
+
+        getIntentExtra();
         inittop();
         initlistView();
     }
 
+    private void getIntentExtra(){
+        keyword = getIntent().getStringExtra("keyword");
+        mylatitude = getIntent().getDoubleExtra("mylatitude",0.0);
+        mylongitude = getIntent().getDoubleExtra("mylongitude",0.0);
+        Log.d(TAG, "getIntent Longitude " + mylongitude);
+        Log.d(TAG, "getIntent Latitude " + mylatitude);
+    }
+
     private void inittop() {
         TextView textview = (TextView) findViewById(R.id.title_text);
-        textview.setText(getIntent().getStringExtra("keyword"));
+        textview.setText(keyword);
         textView = getIntent().getStringExtra("keyword");
         ImageButton bt = (ImageButton) findViewById(R.id.return_btn);
         bt.setOnClickListener(new View.OnClickListener() {
@@ -66,21 +77,27 @@ public class NextActivity extends Activity{
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d(TAG, view.toString());
-                        Intent intent = new Intent();
-                        intent.setClass(NextActivity.this,LastActivity.class);
+                        Log.d(TAG,"Button : onClick");
+                        Intent intent = new Intent(NextActivity.this,LastActivity.class);
+                        Log.d(TAG, "btn sendIntent Longitude " + mylongitude);
+                        Log.d(TAG, "btn sendIntent Latitude " + mylatitude);
                         intent.putExtra("keyword",textView.getText());
+                        intent.putExtra("mylongitude",mylongitude);
+                        intent.putExtra("mylatitude",mylatitude);
                         startActivity(intent);
                     }
                 });
 				view.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						TextView textView = (TextView) v.findViewById(R.id.text_name);
-						Log.d(TAG,"Item : onClick");
-						Intent intent = new Intent(NextActivity.this,PoiCatalogueShowActivity.class);
-						intent.putExtra("keyword",textView.getText());
-						startActivity(intent);
+                        Log.d(TAG,"Item : onClick");
+                        Intent intent = new Intent(NextActivity.this,PoiCatalogueShowActivity.class);
+                        Log.d(TAG, "view sendIntent Longitude " + mylongitude);
+                        Log.d(TAG, "view sendIntent Latitude " + mylatitude);
+                        intent.putExtra("keyword",textView.getText());
+                        intent.putExtra("mylongitude",mylongitude);
+                        intent.putExtra("mylatitude",mylatitude);
+                        startActivity(intent);
 					}
 				});
                 if(textView.getText().equals("文化用品店")){

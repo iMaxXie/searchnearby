@@ -80,32 +80,49 @@ public class PoiCatalogueDetailActivity extends Activity {
 		}
 		setContentView(R.layout.poi_catalogue_detail);
 
+
+        getIntentExtra();
+        initComponent();
+
+        if(stNode.pt.getLatitudeE6()==0||stNode.pt.getLongitudeE6()==0){
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("定位中...");
+            progressDialog.show();
+
+            LocationManager.getCurrentLocation(this,new LocationManager.GetCurrentLocListener() {
+                @Override
+                public void getLoctioning(BDLocation bdLocation) {
+                    latitude = bdLocation.getLatitude();
+                    longitude = bdLocation.getLongitude();
+                    progressDialog.dismiss();
+                    stNode.pt = new GeoPoint((int)(latitude*1E6),(int)(longitude*1E6));
+                    Log.d(TAG, "START Longitude " + longitude);
+                    Log.d(TAG, "START Latitude " + latitude);
+                    initMapView();
+                }
+            });
+        } else{
+            initMapView();
+        }
+	}
+
+
+    private void getIntentExtra(){
         edNode = new MKPlanNode();
+        stNode = new MKPlanNode();
         //目标点
-        longitude = Double.parseDouble(getIntent().getStringExtra("longtitude"));
-        latitude = Double.parseDouble(getIntent().getStringExtra("latitude"));
+        longitude =getIntent().getDoubleExtra("target_longtitude",0.0);
+        latitude = getIntent().getDoubleExtra("target_latitude",0.0);
         edNode.pt = new GeoPoint((int)(latitude*1E6),(int)(longitude*1E6));
         Log.d(TAG, "END Longitude " + longitude);
         Log.d(TAG, "END Latitude " + latitude);
 
-        initComponent();
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("定位中...");
-        progressDialog.show();
-
-        LocationManager.getCurrentLocation(this,new LocationManager.GetCurrentLocListener() {
-            @Override
-            public void getLoctioning(BDLocation bdLocation) {
-                latitude = bdLocation.getLatitude();
-                longitude = bdLocation.getLongitude();
-                progressDialog.dismiss();
-                initNode();
-                initMapView();
-            }
-        });
-
-	}
+        longitude =getIntent().getDoubleExtra("mylongtitude",0.0);
+        latitude = getIntent().getDoubleExtra("mylatitude",0.0);
+        stNode.pt = new GeoPoint((int)(latitude*1E6),(int)(longitude*1E6));
+        Log.d(TAG, "START Longitude " + longitude);
+        Log.d(TAG, "START Latitude " + latitude);
+    }
 
     private void initComponent(){
         route_distance = (TextView) findViewById(R.id.detail_route);
@@ -140,15 +157,6 @@ public class PoiCatalogueDetailActivity extends Activity {
         });
     }
 
-    private void initNode(){
-        stNode = new MKPlanNode();
-
-        //起始点
-        stNode.pt = new GeoPoint((int)(latitude*1E6),(int)(longitude*1E6));
-        Log.d(TAG, "START Longitude " + longitude);
-        Log.d(TAG, "START Latitude " + latitude);
-    }
-
 	private void initMapView(){
 		Log.d(TAG, "init MapView!");
 
@@ -168,8 +176,7 @@ public class PoiCatalogueDetailActivity extends Activity {
         detail_mapview.getOverlays().add(endOverlay);
 
         target_name.setVisibility(View.VISIBLE);
-        if(!target_addr.getText().equals(""))
-            target_addr.setVisibility(View.VISIBLE);
+        target_addr.setVisibility(View.VISIBLE);
         route_distance.setVisibility(View.VISIBLE);
         Log.d(TAG,"tel:"+getIntent().getStringExtra("tel"));
         if(!getIntent().getStringExtra("tel").equals(""))
@@ -205,7 +212,7 @@ public class PoiCatalogueDetailActivity extends Activity {
                 detail_mapview.getController().animateTo(routeResult.getStart().pt);
                 //将路线数据保存给全局变量
                 //route = routeResult.getPlan(0).getRoute(0);
-                route_distance.setText("全程"+routeResult.getPlan(0).getDistance()+"米，大约耗时"+routeResult.getPlan(0).getTime()+"分钟");
+                route_distance.setText("全程"+routeResult.getPlan(0).getDistance()+"米，大约耗时"+ routeResult.getPlan(0).getTime()/60+"分钟");
             }
 
             @Override
@@ -231,7 +238,7 @@ public class PoiCatalogueDetailActivity extends Activity {
                 //将路线数据保存给全局变量
                 route = routeResult.getPlan(0).getRoute(0);
                 //重置路线节点索引，节点浏览时使用
-                route_distance.setText("全程"+routeResult.getPlan(0).getDistance()+"米，大约耗时"+routeResult.getPlan(0).getTime()+"分钟");
+                route_distance.setText("全程"+routeResult.getPlan(0).getDistance()+"米，大约耗时"+ routeResult.getPlan(0).getTime()/60+"分钟");
             }
 
             @Override
@@ -257,7 +264,7 @@ public class PoiCatalogueDetailActivity extends Activity {
                 //将路线数据保存给全局变量
                 route = routeResult.getPlan(0).getRoute(0);
                 //重置路线节点索引，节点浏览时使用
-                route_distance.setText("全程"+routeResult.getPlan(0).getDistance()+"米，大约耗时"+routeResult.getPlan(0).getTime()+"分钟");
+                route_distance.setText("全程"+routeResult.getPlan(0).getDistance()+"米，大约耗时"+ routeResult.getPlan(0).getTime()/60+"分钟");
             }
 
             @Override

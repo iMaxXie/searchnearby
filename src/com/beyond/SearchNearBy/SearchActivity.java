@@ -1,6 +1,9 @@
 package com.beyond.SearchNearBy;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 
@@ -16,83 +19,109 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.baidu.platform.comapi.basestruct.GeoPoint;
+import com.beyond.SearchNearBy.model.PoiManager;
 
 public class SearchActivity extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
-    private ListView listView;
-    private ArrayList<HashMap<String, ?>> data = new ArrayList<HashMap<String, ?>>();
-    private BaseAdapter baseAdapter;
-    private int selectedPosition = -1;
+    private final String TAG = "snb.SearchActivity";
+
+    private double mylongitude = 0.0;
+    private double mylatitude = 0.0;
+
+    private ListView listView = null;
+    private EditText searchEdit = null;
+    private SimpleAdapter searchAdapter;
+    private GeoPoint location= null;
+
+    private String keyword = null;
+
+    private ArrayList<HashMap<String,String>> datalist = new ArrayList<HashMap<String, String>>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
+        Log.d(TAG, "SearchActivity " );
+        getIntentExtra();
+        initComponent();
+    }
+
+    private void getIntentExtra(){
+        keyword = getIntent().getStringExtra("keyword");
+        mylatitude = getIntent().getDoubleExtra("mylatitude",0.0);
+        mylongitude = getIntent().getDoubleExtra("mylongitude",0.0);
+        Log.d(TAG, "getIntent Longitude " + mylongitude);
+        Log.d(TAG, "getIntent Latitude " + mylatitude);
+        location = new GeoPoint((int)(mylatitude*1E6),(int)(mylongitude*1E6));
+    }
+
+    private void initComponent(){
+        searchEdit = (EditText) findViewById(R.id.search_key);
         listView = (ListView) findViewById(R.id.search_list);
-
-        for (int i = 0; i < 20; i++) {
-            HashMap<String, Object> item = new HashMap<String, Object>();
-            item.put("name", "黄记煌三汁焖锅" );
-            item.put("address", "西安南大街52号南附楼内3层");
-            item.put("distance", "500m");
-            data.add(item);
-        }
-
-        baseAdapter = new BaseAdapter() {
+        LinearLayout footer_more = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.item_more,listView,false);
+        TextView textView = (TextView) footer_more.findViewById(R.id.item_range);
+        textView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public int getCount() {
-                return data.size();
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return data.get(position);
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                Log.d("Search_ListView", "getView " + position);
-
-                if (convertView == null) {
-                    LayoutInflater layoutInflater = getLayoutInflater();
-                    convertView = layoutInflater.inflate(R.layout.catalogue_list_item, parent, false);
-                }
-
-                Map<String, Object> itemData = (Map<String, Object>) getItem(position);
-
-                TextView nameTextView = (TextView) convertView.findViewById(R.id.dept_name);
-                TextView addressTextView = (TextView) convertView.findViewById(R.id.dept_addr);
-                TextView distanceTextView = (TextView) convertView.findViewById(R.id.dept_distance);
-
-                nameTextView.setText(itemData.get("name").toString());
-                addressTextView.setText(itemData.get("address").toString());
-                distanceTextView.setText(itemData.get("distance").toString());
-
-
-                if (position == selectedPosition) {
-                    convertView.setBackgroundColor(Color.WHITE);
-                }
-                return convertView;
-            }
-        };
-
-
-        listView.setAdapter(baseAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position,long itemId) {
-                selectedPosition = position;
-                baseAdapter.notifyDataSetChanged();
+            public void onClick(View v) {
             }
         });
+        listView.addFooterView(footer_more);
+    }
+
+
+    public void onSearchClick(View view){
+        keyword = searchEdit.getText().toString();
+        Log.d(TAG, " searchEdit: " + keyword);
+        new AsyncTask<Object,Object,Object>(){
+            ProgressDialog progressDialog = new ProgressDialog(SearchActivity.this);
+
+            @Override
+            protected void onPreExecute() {
+                progressDialog.setMessage("查询中...");
+                progressDialog.show();
+                super.onPreExecute();
+            }
+
+
+
+            @Override
+            protected Object doInBackground(Object... params) {
+                String json = PoiManager.getPOIbyLocation(location, keyword, 2000, 1, 10);
+                datalist = PoiManager.formatJson(json);
+                Log.d(TAG, " datalist: " + datalist.size());
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Object o) {
+
+                progressDialog.dismiss();
+                if(searchAdapter == null){
+                    searchAdapter = new SimpleAdapter(SearchActivity.this,datalist,
+                            R.layout.catalogue_list_item,
+                            new String[]{"name","address","distance"},
+                            new int[]{R.id.dept_name,R.id.dept_addr,R.id.dept_distance});
+                    listView.setAdapter(searchAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position,long itemId) {
+                            Intent intent = new Intent(SearchActivity.this,PoiCatalogueDetailActivity.class);
+                            intent.putExtra("target_longtitude",Double.parseDouble(datalist.get(position).get("longtitude")));
+                            intent.putExtra("target_latitude",Double.parseDouble(datalist.get(position).get("latitude")));
+                            intent.putExtra("mylongtitude",mylongitude);
+                            intent.putExtra("mylatitude",mylatitude);
+                            intent.putExtra("name",datalist.get(position).get("name"));
+                            intent.putExtra("address",datalist.get(position).get("address"));
+                            intent.putExtra("tel",datalist.get(position).get("tel"));
+                            startActivity(intent);
+                        }
+                    });
+                }
+                else{
+                    searchAdapter.notifyDataSetChanged();
+                }
+                super.onPostExecute(o);
+            }
+        }.execute(0);
 
     }
 

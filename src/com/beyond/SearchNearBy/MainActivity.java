@@ -41,7 +41,8 @@ public class MainActivity extends Activity{
     private ImageButton loc_btn;
     private TextView place_text;
 
-    private ProgressDialog progressDialog = null;
+    private double mylongitude = 0.0;
+    private double mylatitude = 0.0;
 
 
     @Override
@@ -55,7 +56,8 @@ public class MainActivity extends Activity{
 //		bindService(intent,serviceCon,BIND_AUTO_CREATE);
         initLocation();
 
-        init();
+        initComponent();
+        initlistView();
     }
 
 //	@Override
@@ -66,15 +68,14 @@ public class MainActivity extends Activity{
 ////		bindService(intent,serviceCon,BIND_AUTO_CREATE);
 //	}
 
-    private void init() {
-        initComponent();
-        initlistView();
-    }
-
     private void initLocation(){
         LocationManager.getCurrentLocation(this,new LocationManager.GetCurrentLocListener() {
             @Override
             public void getLoctioning(BDLocation bdLocation) {
+                mylatitude = bdLocation.getLatitude();
+                mylongitude = bdLocation.getLongitude();
+                Log.d(TAG, "callback Longitude " + mylongitude);
+                Log.d(TAG, "callback Latitude " + mylatitude);
                 place_text.setText(bdLocation.getAddrStr());
             }
         });
@@ -91,6 +92,8 @@ public class MainActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Intent  intent = new Intent(MainActivity.this,SearchActivity.class);
+                intent.putExtra("mylongitude",mylongitude);
+                intent.putExtra("mylatitude",mylatitude);
                 startActivity(intent);
             }
         });
@@ -131,7 +134,11 @@ public class MainActivity extends Activity{
                     public void onClick(View v) {
                         Log.d(TAG," onClick");
                         Intent intent = new Intent(MainActivity.this,NextActivity.class);
+                        Log.d(TAG, "btn sendIntent Longitude " + mylongitude);
+                        Log.d(TAG, "btn sendIntent Latitude " + mylatitude);
                         intent.putExtra("keyword",textView.getText());
+                        intent.putExtra("mylongitude",mylongitude);
+                        intent.putExtra("mylatitude",mylatitude);
                         startActivity(intent);
                     }
                 });
@@ -140,7 +147,11 @@ public class MainActivity extends Activity{
                     public void onClick(View v) {
                         Log.d(TAG,"Item : onClick");
                         Intent intent = new Intent(MainActivity.this,PoiCatalogueShowActivity.class);
+                        Log.d(TAG, "view sendIntent Longitude " + mylongitude);
+                        Log.d(TAG, "view sendIntent Latitude " + mylatitude);
                         intent.putExtra("keyword",textView.getText());
+                        intent.putExtra("mylongitude",mylongitude);
+                        intent.putExtra("mylatitude",mylatitude);
                         startActivity(intent);
                     }
                 });

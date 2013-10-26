@@ -19,11 +19,15 @@ import java.util.List;
 import java.util.Map;
 
 public class LastActivity extends Activity{
-	private final String TAG="LastActivity";
+	private final String TAG="snb.LastActivity";
     private ListView listView;
     private List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
     private ArrayList<String>objectdata = new ArrayList<String>();
     private String textView = null;
+
+    private double mylongitude = 0.0;
+    private double mylatitude = 0.0;
+    private String keyword = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -31,16 +35,22 @@ public class LastActivity extends Activity{
         setContentView(R.layout.next);
         listView=(ListView)findViewById(R.id.next_list);
         listView.setDividerHeight(1);
-        init();
-    }
-    private void init() {
+
+        getIntentExtra();
         inittop();
         initlistView();
+    }
+    private void getIntentExtra(){
+        keyword = getIntent().getStringExtra("keyword");
+        mylatitude = getIntent().getDoubleExtra("mylatitude",0.0);
+        mylongitude = getIntent().getDoubleExtra("mylongitude",0.0);
+        Log.d(TAG, "getIntent Longitude " + mylongitude);
+        Log.d(TAG, "getIntent Latitude " + mylatitude);
     }
 
     private void inittop() {
         TextView textview = (TextView) findViewById(R.id.title_text);
-        textview.setText(getIntent().getStringExtra("keyword"));
+        textview.setText(keyword);
         textView = getIntent().getStringExtra("keyword");
         ImageButton bt = (ImageButton) findViewById(R.id.return_btn);
         bt.setOnClickListener(new View.OnClickListener() {
@@ -58,26 +68,25 @@ public class LastActivity extends Activity{
             hashMap.put("nameTextView",str);
             data.add(hashMap);
         }
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this,data,R.layout.main_item,new String[]{"nameTextView"},new int[]{R.id.text_name}){
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this,data,R.layout.main_item,
+                new String[]{"nameTextView"},new int[]{R.id.text_name}){
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
                 ImageButton button = (ImageButton) view.findViewById(R.id.next_button);
                 button.setVisibility(View.GONE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d(TAG, view.toString());
-                    }
-                });
 
 				view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 						TextView textView = (TextView) view.findViewById(R.id.text_name);
-						Log.d(TAG,"Item : onClick");
-						Intent intent = new Intent(LastActivity.this,PoiCatalogueShowActivity.class);
-						intent.putExtra("keyword",textView.getText());
-						startActivity(intent);
+                        Log.d(TAG,"Item : onClick");
+                        Intent intent = new Intent(LastActivity.this,PoiCatalogueShowActivity.class);
+                        Log.d(TAG, "view sendIntent Longitude " + mylongitude);
+                        Log.d(TAG, "view sendIntent Latitude " + mylatitude);
+                        intent.putExtra("keyword",textView.getText());
+                        intent.putExtra("mylongitude",mylongitude);
+                        intent.putExtra("mylatitude",mylatitude);
+                        startActivity(intent);
                     }
                 });
                 return view;

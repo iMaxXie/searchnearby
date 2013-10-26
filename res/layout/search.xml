@@ -18,7 +18,8 @@
 					 android:background="@drawable/bg_button"
 					 android:onClick="onSearchBackClick"/>
 
-		<EditText  android:layout_weight="1"
+		<EditText  android:id="@+id/search_key"
+                android:layout_weight="1"
 				   android:layout_height="wrap_content"
 				   android:layout_width="fill_parent"
 				   android:layout_marginLeft="20dp"
@@ -33,7 +34,8 @@
 					 android:layout_gravity="center_vertical"
 					 android:layout_marginLeft="15dp"
 					 android:src="@drawable/abs__ic_search"
-					 android:background="@drawable/bg_button"/>
+					 android:background="@drawable/bg_button"
+                android:onClick="onSearchClick"/>
 	</LinearLayout>
 
 	<ListView android:id="@+id/search_list"
